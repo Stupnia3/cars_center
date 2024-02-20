@@ -1,0 +1,20 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    background-color: #007bff;
+}
+
+.navbar-brand, .navbar-nav a {
+    color: #fff;
+}
+
+.logo {
+    max-width: 150px;
+    display: block;
+}
+
+img {
+    width: 100%;
+}
