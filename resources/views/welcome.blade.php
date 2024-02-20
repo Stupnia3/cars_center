@@ -19,7 +19,7 @@
                             </div>
                             <div class="card-footer bg-info d-flex justify-content-between align-items-center">
                                 <a href="{{ route('user.show', $user->id) }}" class="btn btn-light">Подробнее</a>
-                                @if(auth()->user()->isAdmin())
+                                @if(auth()->check() && auth()->user()->isAdmin())
                                     <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
                                         @csrf
                                         @method('PUT') <!-- Изменяем метод на PUT -->
