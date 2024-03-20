@@ -7,7 +7,7 @@
         <h1 class="mt-4">Подробная информация о компании {{ $user->name_company }}</h1>
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Информация о компании</h5>
+                <h5 class="card-title">Информация о компании {{ $user->name_company }}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Имя директора: {{ $user->full_name }}</li>
                     <li class="list-group-item">Email: {{ $user->email }}</li>
