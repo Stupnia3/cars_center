@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('password');
             $table->string('INN')->unique()->nullable();
+            $table->string('address')->nullable();
+            $table->string('name_company')->nullable();
             $table->string('license')->nullable();
             $table->string('status')->default(\App\Enums\StatusEnum::NEW->value);
             $table->string('role');

@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class UserCard extends Model
 {
-    protected $fillable = ['user_id', 'full_name', 'email', 'phone'];
+    protected $fillable = ['user_id', 'full_name', 'email', 'phone', 'description'];
 
     // Определите отношение к пользователю
     public function user()

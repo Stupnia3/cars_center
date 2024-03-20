@@ -11,10 +11,10 @@
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 shadow">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $user->full_name }}</h5>
+                                <h5 class="card-title">{{ $user->name_company }}</h5>
                                 <p class="card-text">Email: {{ $user->email }}</p>
                                 <p class="card-text">Телефон: {{ $user->phone }}</p>
-                                <p class="card-text">ИНН: {{ $user->INN }}</p>
+                                <p class="card-text">Адрес: {{ $user->address }}</p>
                                 <!-- Добавьте другие данные пользователя, если необходимо -->
                             </div>
                             <div class="card-footer bg-info d-flex justify-content-between align-items-center">

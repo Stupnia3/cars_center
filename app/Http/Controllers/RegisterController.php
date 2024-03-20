@@ -13,6 +13,7 @@ class RegisterController extends Controller
 {
     public function register(RegisterRequest $request){
         $data = $request->all(); // добавляем поле 'active' со значением 'nonactive'
+        $data = $request->except(['_token', 'password_confirmation']);
         if ($request->hasFile('license')) {
             $file = $request->file('license');
             $fileName = time() . '_' . $file->getClientOriginalName();

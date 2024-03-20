@@ -23,7 +23,7 @@
                     <ul class="navbar-nav ml-auto">
                         @if(!\Illuminate\Support\Facades\Auth::user())
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('register')}}">Регистрация</a>
+                            <a class="nav-link" href="{{route('register')}}">Оставить заявку</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('login')}}">Авторизация</a>

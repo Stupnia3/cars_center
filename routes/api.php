@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest.required')->group(function () {
+Route::middleware('guest')->group(function () {
     Route::post('/register', [\App\Http\Controllers\RegisterController::class, 'register'])->name('registration');
     Route::post('/login', [\App\Http\Controllers\LoginController::class, 'auth'])->name('auth');
 });

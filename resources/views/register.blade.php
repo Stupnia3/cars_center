@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-    Регистрация
+    Оставить заявку
 @endsection
 
 @section('content')
     <div class="container mt-5">
-        <h2>Регистрация</h2>
+        <h2>Оставить заявку</h2>
         @if($errors->any())
             <ul class="alert alert-danger mt-2 mb-2">
                 @foreach($errors->all() as $error)
@@ -25,8 +25,12 @@
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="fullName">Имя (директор):</label>
-                <input type="text" class="form-control" id="fullName" name="full_name" required>
+                <label for="password_confirmation">Подтвердите пароль:</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+            </div>
+            <div class="form-group">
+                <label for="full_name">Имя (директор):</label>
+                <input type="text" class="form-control" id="full_name" name="full_name" required>
             </div>
             <div class="form-group">
                 <label for="phone">Телефон:</label>

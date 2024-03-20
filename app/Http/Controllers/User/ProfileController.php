@@ -5,13 +5,15 @@ namespace App\Http\Controllers\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\UserCard;
+
 
 class ProfileController extends Controller
 {
     public function show()
     {
         $user = auth()->user(); // Получаем текущего пользователя
-        return view('user', compact('user'));
+        return view('user.show', compact('user'));
     }
 
     // Метод для обновления данных пользователя
@@ -38,6 +40,9 @@ class ProfileController extends Controller
                 'email' => $request->input('email'),
                 'phone' => $request->input('phone'),
                 'INN' => $request->input('INN'),
+                'address' => $request->input('address'),
+                'name_company' => $request->input('name_company'),
+                'description' => $request->input('description'),
                 'shinomontazh' => $request->has('shinomontazh') ? true : false,
                 'sto' => $request->has('sto') ? true : false,
                 'diagnostika' => $request->has('diagnostika') ? true : false,
@@ -59,5 +64,6 @@ class ProfileController extends Controller
             'phone' => $user->phone,
             // Другие поля, которые вы хотите добавить в карточку пользователя
         ]);
+        return redirect()->route('user')->with('success', 'Карточка пользователя успешно создана');
     }
 }

@@ -14,7 +14,11 @@
             @method('PUT')
 
             <div class="mb-3">
-                <label for="full_name" class="form-label">ФИО:</label>
+                <label for="name_company" class="form-label">Название компании:</label>
+                <input type="text" class="form-control" id="name_company" name="name_company" value="{{ $user->name_company }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="full_name" class="form-label">ФИО директора:</label>
                 <input type="text" class="form-control" id="full_name" name="full_name" value="{{ $user->full_name }}" required>
             </div>
 
@@ -32,6 +36,15 @@
                 <label for="INN" class="form-label">ИНН:</label>
                 <input type="text" class="form-control" id="INN" name="INN" value="{{ $user->INN }}" required>
             </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Адрес:</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ $user->address }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание:</label>
+                <textarea class="form-control" id="description" name="description" required>{{ $user->description }}</textarea>
+            </div>
+
 
             <div style="width: 200px; height: fit-content;" class="mb-3">
                 <img src="{{ Storage::url('img/licenses/' . $user->license) }}" alt="License">
