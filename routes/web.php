@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\UserCardController::class, 'index'])->name('welcome');
 Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('user.show');
+Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
 
 
 
@@ -26,6 +27,7 @@ Route::middleware('guest.required')->group(function () {
     Route::get('/login', function () {
         return view('login');
     })->name('login');
+
 });
 
 Route::middleware(['user_status', 'auth'])->group(function () {

@@ -29,7 +29,6 @@
                 'phone' => ['required', 'regex:/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/'],
                 'email' => ['required', 'email', 'unique:users,email'],
                 'INN' => ['required', 'string', 'unique:users,INN'],
-                'license' => ['required', 'file', 'mimes:pdf,png,jpg'],
             ];
         }
 

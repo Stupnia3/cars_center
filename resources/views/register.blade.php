@@ -44,10 +44,10 @@
                 <label for="INN">ИНН:</label>
                 <input type="text" class="form-control" id="INN" name="INN" required>
             </div>
-            <div class="form-group">
-                <label for="License">Лицензия (в форматах .pdf, .png, .jpg):</label>
-                <input type="file" id="License" name="license" accept=".pdf,.png,.jpg" required>
-            </div>
+{{--            <div class="form-group">--}}
+{{--                <label for="License">Лицензия (в форматах .pdf, .png, .jpg):</label>--}}
+{{--                <input type="file" id="License" name="license" accept=".pdf,.png,.jpg" required>--}}
+{{--            </div>--}}
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
         </form>
     </div>

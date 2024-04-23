@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserCard;
-
+use App\Models\UserImage; // Добавляем модель UserImage
 
 class ProfileController extends Controller
 {
@@ -22,33 +22,35 @@ class ProfileController extends Controller
         $user = auth()->user(); // Получаем текущего пользователя
 
         // Обновляем данные пользователя
-        if ($request->hasFile('license')) {
-            // Получаем файл из запроса
-            $file = $request->file('license');
-            // Генерируем уникальное имя файла
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            // Сохраняем файл на сервере
-            $file->storeAs('public/img/licenses', $fileName);
-            // Обновляем поле "license" в базе данных
-            $user->update([
-                'license' => $fileName,
-                // Другие поля для обновления...
-            ]);
-        } else {
-            $user->update([
-                'full_name' => $request->input('full_name'),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'INN' => $request->input('INN'),
-                'address' => $request->input('address'),
-                'name_company' => $request->input('name_company'),
-                'description' => $request->input('description'),
-                'shinomontazh' => $request->has('shinomontazh') ? true : false,
-                'sto' => $request->has('sto') ? true : false,
-                'diagnostika' => $request->has('diagnostika') ? true : false,
-                'remont_mkpp_akpp' => $request->has('remont_mkpp_akpp') ? true : false,
-                'remont_dvigatelya' => $request->has('remont_dvigatelya') ? true : false,
-            ]);
+        $user->update([
+            'full_name' => $request->input('full_name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'INN' => $request->input('INN'),
+            'address' => $request->input('address'),
+            'name_company' => $request->input('name_company'),
+            'description' => $request->input('description'),
+            'shinomontazh' => $request->has('shinomontazh') ? true : false,
+            'sto' => $request->has('sto') ? true : false,
+            'diagnostika' => $request->has('diagnostika') ? true : false,
+            'remont_mkpp_akpp' => $request->has('remont_mkpp_akpp') ? true : false,
+            'remont_dvigatelya' => $request->has('remont_dvigatelya') ? true : false,
+        ]);
+
+        // Обработка загрузки изображений
+        if ($request->hasFile('gallery_images')) {
+            foreach ($request->file('gallery_images') as $image) {
+                // Генерируем уникальное имя файла
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                // Сохраняем файл на сервере
+                $imagePath = $image->storeAs('public/user_images', $imageName);
+                // Создаем запись в базе данных для каждого изображения
+                UserImage::create([
+                    'user_id' => $user->id,
+                    'image_path' => $imagePath,
+                    'image_name' => $imageName,
+                ]);
+            }
         }
 
         return redirect()->route('user')->with('success', 'Данные успешно обновлены');
