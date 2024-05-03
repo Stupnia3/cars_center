@@ -52,6 +52,15 @@ class ProfileController extends Controller
                 ]);
             }
         }
+        if ($request->hasFile('license')) {
+            $license = $request->file('license');
+            // Генерируем уникальное имя файла лицензии
+            $licenseName = time() . '_' . $license->getClientOriginalName();
+            // Сохраняем файл на сервере
+            $licensePath = $license->storeAs('public/img/licenses', $licenseName);
+            // Сохраняем путь к файлу лицензии в базе данных для текущего пользователя
+            $user->update(['license' => $licensePath]);
+        }
 
         return redirect()->route('user')->with('success', 'Данные успешно обновлены');
     }

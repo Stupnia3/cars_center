@@ -12,4 +12,9 @@ class UserCardController extends Controller
         $users = User::all(); // Получение всех пользователей
         return view('welcome', compact('users')); // Передача данных в представление
     }
+    public function search()
+    {
+        $users = User::all(); // Получение всех пользователей
+        return view('search', compact('users')); // Передача данных в представление
+    }
 }

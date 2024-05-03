@@ -41,7 +41,6 @@ class User extends Authenticatable implements MustVerifyEmail // Добавля�
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'images' => 'array',
     ];
 
     public function isUser(): bool

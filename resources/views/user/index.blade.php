@@ -25,17 +25,23 @@
             </div>
 
             <!-- Отображение загруженных изображений -->
-            <div class="row">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
                 @if($user->images && $user->images->isNotEmpty())
                     @foreach ($user->images as $image)
-                        <div class="col-md-4 mb-4">
-                            <img src="{{ Storage::url($image->image_path) }}" alt="Image" class="img-fluid">
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="{{ Storage::url($image->image_path) }}" class="card-img-top img-fluid" alt="Image" style="max-height: 100%; max-width: 100%;">
+                            </div>
                         </div>
                     @endforeach
                 @else
-                    <p>Нет загруженных изображений.</p>
+                    <div class="col">
+                        <p>Нет загруженных изображений.</p>
+                    </div>
                 @endif
             </div>
+
+
 
 
             <div class="mb-3">
@@ -68,8 +74,14 @@
                 <textarea class="form-control" id="description" name="description" required>{{ $user->description }}</textarea>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 img_license_form">
                 <label for="license" class="form-label">Лицензия:</label>
+                @if($user->license)
+                    <p>Текущая лицензия:</p>
+                    <img class="img_license" src="{{ Storage::url($user->license) }}" alt="Лицензия">
+                @else
+                    <p>Нет загруженной лицензии.</p>
+                @endif
                 <input type="file" class="form-control-file" id="license" name="license" accept=".pdf,.png,.jpg">
             </div>
 

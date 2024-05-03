@@ -9,74 +9,90 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <title>@yield('title')</title>
     <style>
-        #map { height: 400px; }
+        #map {
+            height: 400px;
+        }
     </style>
 </head>
 <body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand logo" href="{{route('welcome')}}">
-                <img src="{{asset('storage/img/images/White logo - no background.svg')}}" alt="logo">
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+<div class="wrapper">
+    <header class="header">
+        <div class="header__container container flex">
+            <div class="logo__container flex">
+                <a href="{{route('welcome')}}" class="logo__picture">
+                    <img src="{{asset('storage/img/images/Black logo - no background.svg')}}" alt="Логотип компании">
+                </a>
+                <a href="{{route('welcome')}}" class="logo__name font-size-average">Автосервисы</a>
+            </div>
+            <nav class="navigation">
+                <ul class="navigation__user ">
+                    <li>
+                        <a href="{{route('search')}}" class="navigation__user__link">
+                            Поиск
+                        </a>
+                    </li>
                     @if(!\Illuminate\Support\Facades\Auth::user())
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('register')}}">Оставить заявку</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('login')}}">Авторизация</a>
-                        </li>
+                    <li class="navigation__user__item ">
+                        <a class="navigation__user__link" href="{{route('register')}}">Оставить заявку</a>
+                    </li>
+                    <li class="navigation__user__item ">
+                        <a class="navigation__user__link login__btn border border-dark p-3 rounded text-white" href="{{ route('login') }}">Войти</a>
+                    </li>
                     @endif
                     @if(\Illuminate\Support\Facades\Auth::user() && \Illuminate\Support\Facades\Auth::user()->role === \App\Enums\RoleEnum::USER->value)
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('user')}}">Личный кабинет</a>
+                        <li class="navigation__user__item ">
+                            <a class="navigation__user__link" href="{{route('user')}}">Личный кабинет</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.show', auth()->user()->id) }}">Моя карточка</a>
+                        <li class="navigation__user__item">
+                            <a class="navigation__user__link" href="{{ route('user.show', auth()->user()->id) }}">Моя карточка</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('logout')}}">Выход</a>
+                        <li class="navigation__user__item">
+                            <a class="navigation__user__link login__btn border border-red p-3 rounded text-white" href="{{route('logout')}}">Выход</a>
                         </li>
                     @endif
                     @if(\Illuminate\Support\Facades\Auth::user() && \Illuminate\Support\Facades\Auth::user()->role === \App\Enums\RoleEnum::ADMIN->value)
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('admin')}}">Личный кабинет</a>
+                        <li class="navigation__user__item ">
+                            <a class="navigation__user__link" href="{{route('user')}}">Личный кабинет</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('admin.application.index')}}">Все заявки</a>
+                        <li class="navigation__user__item">
+                            <a class="navigation__user__link" href="{{route('admin.application.index')}}">Все заявки</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('add-admin')}}">Добавить администратора</a>
+                        <li class="navigation__user__item">
+                            <a class="navigation__user__link" href="{{route('add-admin')}}">Добавить администратора</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('logout')}}">Выход</a>
+                        <li class="navigation__user__item">
+                            <a class="navigation__user__link exit__btn border border-red p-3 rounded text-white login__btn" href="{{route('logout')}}">Выход</a>
                         </li>
                     @endif
                 </ul>
-                <form class="form-inline my-2 my-lg-0 ml-auto" action="{{ route('search') }}" method="GET" id="searchForm">
-                    <input class="form-control mr-sm-2" placeholder="Поиск" aria-label="Search" name="query" type="text" id="searchInput">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Найти</button>
-                    <div id="searchResults" class="position-absolute bg-light border rounded" style="display: none; top: 4rem!important; z-index: 10"></div>
-                </form>
-            </div>
+            </nav>
+            <button class="burger-button burger"></button>
         </div>
-    </nav>
-    <div class="container position-relative">
-        <div id="searchResults" class="position-absolute bg-light border rounded mt-1" style="display: none;"></div>
-    </div>
-</header>
-@yield('content')
-<div id="debug" style="display: none"></div>
+    </header>
+{{--                    <form class="form-inline my-2 my-lg-0 ml-auto" action="{{ route('search') }}" method="GET"--}}
+{{--                          id="searchForm">--}}
+{{--                        <input class="form-control mr-sm-2" placeholder="Поиск" aria-label="Search" name="query"--}}
+{{--                               type="text" id="searchInput">--}}
+{{--                        --}}{{--                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Найти</button>--}}
+{{--                        <div id="searchResults" class="position-absolute bg-light border rounded"--}}
+{{--                             style="display: none; top: 4rem!important; z-index: 10"></div>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </nav>--}}
+{{--        <div class="container position-relative">--}}
+{{--            <div id="searchResults" class="position-absolute bg-light border rounded mt-1" style="display: none;"></div>--}}
+{{--        </div>--}}
+    @yield('content')
+    <div id="debug" style="display: none"></div>
+</div>
 <script src="{{ asset('js/inn_validator.js') }}"></script>
+<script src="{{ asset('js/burger.js') }}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{{asset('jquery.mask.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{{asset('js/smooth-scroll.js')}}"></script>
 <script>
     // Получаем ссылку на поле ввода, блок результатов поиска и блок для отладки
     const searchInput = document.getElementById('searchInput');
@@ -84,7 +100,7 @@
     const debug = document.getElementById('debug');
 
     // Слушаем событие ввода в поле поиска
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', function () {
         // Получаем значение введенного текста
         const query = searchInput.value.trim();
 
@@ -145,7 +161,7 @@
                                 listItem.className = 'list-group-item list-group-item-action';
 
                                 // Добавляем обработчик события для выбора результата
-                                listItem.addEventListener('click', function() {
+                                listItem.addEventListener('click', function () {
                                     window.location.href = `/users/${user.id}`; // Перенаправляем на страницу пользователя
                                 });
 
