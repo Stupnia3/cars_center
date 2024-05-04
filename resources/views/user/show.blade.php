@@ -128,6 +128,13 @@
                 </div>
             </div>
         </div>
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -177,34 +184,51 @@
 {{--            </div>--}}
 {{--        </div>--}}
 {{--    </div>--}}
-
-    <!-- Добавляем карту для отображения местоположения -->
-    <div id="map" style="height: 400px; width: 100%;"></div>
-
-    <!-- JavaScript-код для инициализации карты и отображения местоположения пользователя -->
     <script>
-        function initMap() {
-            // Инициализация карты
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: {{ $user->latitude }}, lng: {{ $user->longitude }}}, // Устанавливаем центр карты
-                zoom: 8 // Устанавливаем масштаб
+        ymaps.ready(function () {
+            var geolocation = ymaps.geolocation;
+
+            // Получаем координаты и данные о компании из базы данных
+            var latitude = {{ $user->latitude }};
+            var longitude = {{ $user->longitude }};
+            var companyName = '{{ $user->name_company }}';
+            var address = '{{ $user->address }}';
+
+            var myMap = new ymaps.Map('map', {
+                center: [55, 34], // Центр карты по умолчанию
+                zoom: 15
+            }, {
+                searchControlProvider: 'yandex#search'
             });
 
-            // Добавление маркера с местоположением пользователя
-            var marker = new google.maps.Marker({
-                position: {lat: {{ $user->latitude }}, lng: {{ $user->longitude }}}, // Устанавливаем позицию маркера
-                map: map, // Устанавливаем карту, на которую добавляем маркер
-                title: 'Местоположение пользователя' // Устанавливаем заголовок маркера
+            // Сравним положение, вычисленное по IP пользователя и
+            // положение, вычисленное средствами браузера.
+            geolocation.get({
+                provider: 'yandex',
+                mapStateAutoApply: true
+            }).then(function (result) {
+                // Красным цветом пометим положение, вычисленное через IP.
+                result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+                result.geoObjects.get(0).properties.set({
+                    balloonContentBody: 'Мое местоположение'
+                });
+                myMap.geoObjects.add(result.geoObjects);
             });
-        }
+
+            // Создаем метку с данными о компании
+            var myPlacemark = new ymaps.Placemark([latitude, longitude], {
+                iconContent: companyName, // Название компании будет отображаться на метке
+                balloonContentHeader: companyName, // Название компании будет отображаться в заголовке балуна метки
+                balloonContentBody: address // Адрес будет отображаться в теле балуна метки
+            }, {
+                preset: 'islands#blueDotIcon', // Устанавливаем вид метки
+                draggable: false // Отключаем возможность перемещения метки
+            });
+
+            // Добавляем метку компании на карту
+            myMap.geoObjects.add(myPlacemark);
+        });
     </script>
-    <!-- Подключаем JavaScript API для работы с картами -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
-
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection
+

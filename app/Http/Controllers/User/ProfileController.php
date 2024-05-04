@@ -35,6 +35,8 @@ class ProfileController extends Controller
             'diagnostika' => $request->has('diagnostika') ? true : false,
             'remont_mkpp_akpp' => $request->has('remont_mkpp_akpp') ? true : false,
             'remont_dvigatelya' => $request->has('remont_dvigatelya') ? true : false,
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
         ]);
 
         // Обработка загрузки изображений

@@ -84,8 +84,6 @@
                 <th>Роль</th>
                 <th>Статус заявки</th>
                 <th>Действия</th>
-
-                <img src="{{asset('storage/app/')}}" alt="">
             </tr>
             </thead>
             <tbody>
