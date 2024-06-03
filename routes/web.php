@@ -17,7 +17,7 @@ Route::get('/', [\App\Http\Controllers\UserCardController::class, 'index'])->nam
 Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show'])->name('user.show');
 Route::get('/search', [\App\Http\Controllers\UserCardController::class, 'search'])->name('search');
 Route::post('/get-closest-users', [\App\Http\Controllers\UserCardController::class, 'getClosestUsers'])->name('get-closest-users');
-
+Route::get('/search/go', [\App\Http\Controllers\UserController::class, 'search_click'])->name('search_click');
 
 
 

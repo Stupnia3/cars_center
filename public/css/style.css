@@ -239,12 +239,24 @@ a {
     margin-bottom: 5%;
 }
 
-.description {
+.description, .nowrap_short {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+}
+.card-body .carousel-inner{
+    height: 220px !important;
+}
+.card-body .carousel-item{
+    height: 100%;
+    width: 100%;
+}
+
+.card-body img{
+    object-fit: contain !important;
+    height: 100% !important;
 }
 
 /*сетка*/

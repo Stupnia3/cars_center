@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -27,6 +28,18 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+        // Создание пользователя с ролью "admin"
+        $adminUser = [
+            'full_name' => 'Мунин Ярослав',
+            'email' => 'munin@mail.ru',
+            'login' => 'admin',
+            'phone' => '+7 (987) 419-01-05',
+            'status' => 'active',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ];
+
+        User::create($adminUser);
     }
 
     /**

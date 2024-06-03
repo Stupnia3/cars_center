@@ -3,6 +3,10 @@
 @section('title', 'Результаты поиска')
 
 @section('content')
+    <style>
+
+
+    </style>
     <section class="search main">
         <div class="container">
             <div class="row pt-5">
@@ -11,118 +15,117 @@
                 </div>
                 <div class="col-6 col-md-2">
                     <div class="align-end">
-                        <select name="sort" id="sort" class="form-select">
-                            <option value="1">Последние</option>
-                            <option value="0">Старые</option>
-                        </select>
+                        <form action="{{ route('search') }}" method="GET">
+                            <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                                <option value="1" {{ request('sort') == 1 ? 'selected' : '' }}>Последние</option>
+                                <option value="0" {{ request('sort') == 0 ? 'selected' : '' }}>Старые</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <div class="row pt-5">
                 <div class="col-md-4 col-lg-3 sidebar mb-4">
-
-                    <form action="" name="searchForm" id="searchForm">
+                    <form action="{{ route('search') }}" method="GET" name="searchForm" id="searchForm">
                         <div class="card border-0 shadow p-4">
                             <div class="mb-4">
                                 <p class="bold">Название</p>
-                                <input type="text" value="" name="keyword" id="keyword" placeholder="Ключевые слова" class="form-control">
+                                <input type="text" value="{{ request('keyword') }}" name="keyword" id="keyword" placeholder="Ключевые слова" class="form-control">
                             </div>
 
                             <div class="mb-4">
                                 <p class="bold">Город</p>
-                                <input type="text" value="" name="location" id="location" placeholder="Город" class="form-control">
+                                <input type="text" value="{{ request('location') }}" name="location" id="location" placeholder="Город" class="form-control">
                             </div>
 
                             <div class="mb-4">
                                 <p class="bold">Виды работ</p>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="job_type" type="checkbox" value="1" id="job-type-1">
-                                    <label class="form-check-label" for="job-type-1">Шиномонтаж</label>
+                                    <input class="form-check-input" name="shinomontazh" type="checkbox" value="1" id="shinomontazh" {{ request('shinomontazh') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="shinomontazh">Шиномонтаж</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="job_type" type="checkbox" value="2" id="job-type-2">
-                                    <label class="form-check-label" for="job-type-2">СТО</label>
+                                    <input class="form-check-input" name="sto" type="checkbox" value="1" id="sto" {{ request('sto') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="sto">СТО</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="job_type" type="checkbox" value="3" id="job-type-3">
-                                    <label class="form-check-label" for="job-type-3">Диагностика</label>
+                                    <input class="form-check-input" name="diagnostika" type="checkbox" value="1" id="diagnostika" {{ request('diagnostika') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="diagnostika">Диагностика</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="job_type" type="checkbox" value="4" id="job-type-4">
-                                    <label class="form-check-label" for="job-type-4">Ремонт МКПП и АКПП</label>
+                                    <input class="form-check-input" name="remont_mkpp_akpp" type="checkbox" value="1" id="remont_mkpp_akpp" {{ request('remont_mkpp_akpp') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remont_mkpp_akpp">Ремонт МКПП и АКПП</label>
                                 </div>
                                 <div class="form-check mb-2">
-                                    <input class="form-check-input" name="job_type" type="checkbox" value="5" id="job-type-5">
-                                    <label class="form-check-label" for="job-type-5">Работа и ремонт двигателя</label>
+                                    <input class="form-check-input" name="remont_dvigatelya" type="checkbox" value="1" id="remont_dvigatelya" {{ request('remont_dvigatelya') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remont_dvigatelya">Работа и ремонт двигателя</label>
                                 </div>
                             </div>
 
                             <button type="submit" class="text-center btn btn-primary mb-4">Применить</button>
-                            <a href="{{route('search')}}" class="btn btn-secondary">Сбросить</a>
+                            <a href="{{ route('search') }}" class="btn btn-secondary">Сбросить</a>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-8 col-lg-9 ">
+                <div class="col-md-8 col-lg-9">
                     <div class="job_listing_area">
                         <div class="job_lists">
                             <div class="row">
-                                @foreach($users as $user)
+                                @forelse($users as $user)
                                     @if($user->role !== 'admin' && $user->status === 'active')
                                         <div class="col-md-6 search-card">
                                             <div class="card border-0 p-3 shadow mb-4">
                                                 <div class="card-body">
-                                                    <h4 class="border-0 fs-5 pb-2 mb-0"><a
-                                                            href="{{ route('user.show', $user->id) }}">
-                                                            {{ $user->name_company }}</a></h4>
-                                                    <p class="description">{{ $user->description  }}</p>
+                                                    <h4 class="border-0 fs-5 pb-2 mb-0"><a href="{{ route('user.show', $user->id) }}">{{ $user->name_company }}</a></h4>
+                                                    <p class="description">{{ $user->description }}</p>
                                                     <div class="card-info p-4 border">
-                                                        <p class="mb-1">
-                                                        <span class="card-vector"><img
-                                                                src="{{asset('storage/img/images/mail-icon.svg')}}"
-                                                                alt="Почта"></span>
-                                                            <span class="ps-1">{{ $user->email }}</span>
+                                                        <p class="mb-1 flex">
+                                                            <span class="card-vector"><img src="{{ asset('storage/img/images/mail-icon.svg') }}" alt="Почта"></span>
+                                                            <span class="ps-1 nowrap_short">{{ $user->email }}</span>
                                                         </p>
-                                                        <p class="mb-1">
-                                                        <span class="card-vector"><img
-                                                                src="{{asset('storage/img/images/phone-icon.svg')}}"
-                                                                alt="Телефон"></span>
-                                                            <span class="ps-1">{{ $user->phone }}</span>
+                                                        <p class="mb-1 flex">
+                                                            <span class="card-vector"><img src="{{ asset('storage/img/images/phone-icon.svg') }}" alt="Телефон"></span>
+                                                            <span class="ps-1 nowrap_short">{{ $user->phone }}</span>
                                                         </p>
-                                                        <p class="mb-1">
-                                                        <span class="card-vector"><img
-                                                                src="{{asset('storage/img/images/map-icon.svg')}}"
-                                                                alt="Местоположения"></span>
-                                                            <span class="ps-1">{{ $user->address }}</span>
+                                                        <p class="mb-1 flex">
+                                                            <span class="card-vector"><img src="{{ asset('storage/img/images/map-icon.svg') }}" alt="Местоположение"></span>
+                                                            <span class="ps-1 nowrap_short">{{ $user->address }}</span>
                                                         </p>
-
-                                                    </div>
-
-                                                    <div
-                                                        class="text-center mt-3 d-flex justify-content-between align-items-center">
-                                                        <a href="{{ route('user.show', $user->id) }}"
-                                                           class="btn btn-primary btn-lg">Подробнее</a>
-                                                        @if(auth()->check() && auth()->user()->isAdmin())
-                                                            <form method="POST"
-                                                                  action="{{ route('admin.users.update', $user->id) }}">
-                                                                @csrf
-                                                                @method('PUT') <!-- Изменяем метод на PUT -->
-                                                                <input type="hidden" name="_method" value="PUT">
-                                                                <!-- Добавляем скрытое поле _method -->
-                                                                <button type="submit" name="status" value="deleted"
-                                                                        class="btn btn-danger ml-2">Удалить
+                                                        <div class="mb-4" id="gallery">
+                                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                                <div class="carousel-inner">
+                                                                    @if($user->images && $user->images->isNotEmpty())
+                                                                        @foreach ($user->images as $key => $image)
+                                                                            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                                                                <img src="{{ Storage::url($image->image_path) }}" class="d-block w-100" alt="Image">
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @else
+                                                                        <div class="carousel-item active">
+                                                                            <p>Нет загруженных изображений.</p>
+                                                                        </div>
+                                                                    @endif
+                                                                </div>
+                                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                    <span class="visually-hidden">Previous</span>
                                                                 </button>
-                                                            </form>
-                                                        @endif
+                                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                    <span class="visually-hidden">Next</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <a href="{{ route('user.show', $user->id) }}" class="btn btn-primary mt-3">Подробнее</a>
                                                 </div>
                                             </div>
                                         </div>
                                     @endif
-                                @endforeach
-                                <div class="col-md-12">
-
-                                </div>
+                                @empty
+                                    <p>Не найдено пользователей, соответствующих вашему запросу.</p>
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -130,5 +133,31 @@
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var gallery = document.getElementById("gallery");
+            var carouselItems = gallery.querySelectorAll(".carousel-item");
+
+            function displayImage(index) {
+                carouselItems.forEach(function(item, i) {
+                    if (i === index) {
+                        item.classList.add("active");
+                    } else {
+                        item.classList.remove("active");
+                    }
+                });
+            }
+
+            var itemCount = Math.min(carouselItems.length, 4); // Ограничение отображения только 4 изображений
+            for (var i = 0; i < itemCount; i++) {
+                carouselItems[i].addEventListener("mousemove", function() {
+                    var index = Array.prototype.indexOf.call(carouselItems, this);
+                    displayImage(index);
+                });
+            }
+        });
+    </script>
+
 @endsection
 

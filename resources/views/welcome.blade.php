@@ -7,23 +7,24 @@
         <div class="container">
             <h1 class="preview-heading">Найти автосервис по душе</h1>
             <div class="preview-card">
-                <form action="" method="GET">
+                <form action="{{ route('search') }}" method="GET">
                     <div class="row">
                         <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
                             <input type="text" class="form-control preview-control" name="keyword" id="keyword"
-                                   placeholder="Название, виды работ">
+                                   placeholder="Название, виды работ" value="{{ request()->input('keyword') }}">
                         </div>
                         <div class="col-md-3 mb-3 mb-sm-3 mb-lg-0">
                             <input type="text" class="form-control preview-control" name="location" id="location"
-                                   placeholder="Город">
+                                   placeholder="Город" value="{{ request()->input('location') }}">
                         </div>
-                        <div class=" col-md-3 mb-xs-3 mb-sm-3 mb-lg-0">
+                        <div class="col-md-3 mb-xs-3 mb-sm-3 mb-lg-0">
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">Поиск</button>
                             </div>
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </section>
