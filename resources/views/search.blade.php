@@ -4,8 +4,7 @@
 
 @section('content')
     <style>
-
-
+        /* Добавьте свои стили, если необходимо */
     </style>
     <section class="search main">
         <div class="container">
@@ -74,6 +73,11 @@
                             <div class="row">
                                 @forelse($users as $user)
                                     @if($user->role !== 'admin' && $user->status === 'active')
+                                        @php
+                                            $carouselId = 'carousel-' . $user->id;
+                                            $prevButtonId = 'prev-' . $user->id;
+                                            $nextButtonId = 'next-' . $user->id;
+                                        @endphp
                                         <div class="col-md-6 search-card">
                                             <div class="card border-0 p-3 shadow mb-4">
                                                 <div class="card-body">
@@ -92,8 +96,8 @@
                                                             <span class="card-vector"><img src="{{ asset('storage/img/images/map-icon.svg') }}" alt="Местоположение"></span>
                                                             <span class="ps-1 nowrap_short">{{ $user->address }}</span>
                                                         </p>
-                                                        <div class="mb-4" id="gallery">
-                                                            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="mb-4" id="gallery-{{ $user->id }}">
+                                                            <div id="{{ $carouselId }}" class="carousel slide" data-bs-ride="carousel">
                                                                 <div class="carousel-inner">
                                                                     @if($user->images && $user->images->isNotEmpty())
                                                                         @foreach ($user->images as $key => $image)
@@ -103,15 +107,23 @@
                                                                         @endforeach
                                                                     @else
                                                                         <div class="carousel-item active">
-                                                                            <p>Нет загруженных изображений.</p>
+                                                                            <div class="job_content pt-3">
+                                                                                <ul>
+                                                                                    <li class="mb-2"><span class="bold {{ $user->shinomontazh ? 'text-success' : '' }}">{{ $user->shinomontazh ? 'Шиномонтаж' : '' }}</span></li>
+                                                                                    <li class="mb-2"><span class="bold {{ $user->sto ? 'text-success' : '' }}">{{ $user->sto ? 'СТО' : '' }}</span></li>
+                                                                                    <li class="mb-2"><span class="bold {{ $user->diagnostika ? 'text-success' : '' }}">{{ $user->diagnostika ? 'Диагностика' : '' }}</span></li>
+                                                                                    <li class="mb-2"><span class="bold {{ $user->remont_mkpp_akpp ? 'text-success' : '' }}">{{ $user->remont_mkpp_akpp ? 'Ремонт МКПП и АКПП' : '' }}</span></li>
+                                                                                    <li class="mb-2"><span class="bold {{ $user->remont_dvigatelya ? 'text-success' : '' }}">{{ $user->remont_dvigatelya ? 'Работа и ремонт двигателя' : '' }}</span></li>
+                                                                                </ul>
+                                                                            </div>
                                                                         </div>
                                                                     @endif
                                                                 </div>
-                                                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                                <button class="carousel-control-prev" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="prev" id="{{ $prevButtonId }}">
                                                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                                     <span class="visually-hidden">Previous</span>
                                                                 </button>
-                                                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                                <button class="carousel-control-next" type="button" data-bs-target="#{{ $carouselId }}" data-bs-slide="next" id="{{ $nextButtonId }}">
                                                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                                                     <span class="visually-hidden">Next</span>
                                                                 </button>
@@ -158,6 +170,4 @@
             }
         });
     </script>
-
 @endsection
-

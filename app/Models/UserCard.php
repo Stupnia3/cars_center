@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserCard extends Model
 {
-    protected $fillable = ['user_id', 'full_name', 'email', 'phone', 'description'];
+    protected $fillable = ['user_id', 'full_name', 'email', 'phone', 'license', 'description'];
 
     // Определите отношение к пользователю
     public function user()

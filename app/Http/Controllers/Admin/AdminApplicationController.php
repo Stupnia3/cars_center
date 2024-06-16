@@ -15,9 +15,15 @@ class AdminApplicationController extends Controller
     {
         // Получаем всех пользователей
         $users = User::all();
+        $statusTranslations = [
+            'new' => 'Новая',
+            'active' => 'Активна',
+            'blocked' => 'Заблокирована',
+            'deleted' => 'Удалена',
+        ];
 
         // Передаем данные в представление
-        return view('admin.application.index', compact('users'));
+        return view('admin.application.index', compact('users', 'statusTranslations'));
     }
 
     public function update(User $user, Request $request)
